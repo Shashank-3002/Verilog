@@ -1,0 +1,82 @@
+ALU Instruction Set 
+
+Opcode:    [2:0] (3 bits)
+Operand A: [3:0] (4 bits)
+Operand B: [3:0] (4 bits)
+Result:    [7:0] (8 bits)
+Flag:      carry_out (1 bit)
+
+Standard Operations
+
+[Opcode] 3'b000
+Mnemonic: ADD
+Module:   add.v
+Description: Adds A and B.
+[cite_start]Result:   {4'b0, (A + B)} [cite: 9, 10]
+[cite_start]Flag:     'carry_out' = 1 on overflow[cite: 9, 17].
+
+[Opcode] 3'b001
+Mnemonic: SUB
+Module:   sub.v
+Description: Subtracts B from A.
+[cite_start]Result:   {4'b0, (A - B)} [cite: 45]
+[cite_start]Flag:     'carry_out' = 1 on borrow[cite: 18, 45].
+
+[Opcode] 3'b010
+Mnemonic: MUL
+Module:   mul.v
+Description: Multiplies A and B.
+[cite_start]Result:   (A * B) [cite: 19, 43]
+Flag:     'carry_out' = 0
+
+[Opcode] 3'b011
+Mnemonic: DIV
+Module:   div.v
+Description: Divides A by B.
+[cite_start]Result:   {quotient[3:0], remainder[3:0]} [cite: 77, 78]
+[cite_start]Flag:     'carry_out' = 1 if B == 0 (divide-by-zero error)[cite: 20, 79].
+
+--- Logical Operations (Hierarchical Opcode) ---
+[Opcode] 3'b100
+Mnemonic: AND
+Module:   logic_ops.v
+Description: Bitwise A AND B.
+[cite_start]Details:  'opcode' [1:0] (00) selects AND operation inside 'logic_ops'[cite: 2, 15, 21].
+[cite_start]Result:   {4'b0, (A & B)} [cite: 2]
+[cite_start]Flag:     'carry_out' = 0 [cite: 6]
+
+[Opcode] 3'b101
+Mnemonic: OR
+Module:   logic_ops.v
+Description: Bitwise A OR B.
+[cite_start]Details:  'opcode' [1:0] (01) selects OR operation inside 'logic_ops'[cite: 3, 15, 21].
+[cite_start]Result:   {4'b0, (A | B)} [cite: 3]
+[cite_start]Flag:     'carry_out' = 0 [cite: 6]
+
+[Opcode] 3'b110
+Mnemonic: XOR
+Module:   logic_ops.v
+Description: Bitwise A XOR B.
+[cite_start]Details:  'opcode' [1:0] (10) selects XOR operation inside 'logic_ops'[cite: 4, 15, 21].
+[cite_start]Result:   {4'b0, (A ^ B)} [cite: 4]
+[cite_start]Flag:     'carry_out' = 0 [cite: 6]
+
+--- Innovative Custom Operations (Operand-Selected) ---
+[Opcode] 3'b111
+Mnemonic: CUSTOM
+Module:   customizedOperations.v
+Description: Performs one of four custom operations on A.
+[cite_start]Details:  The specific operation is selected by the *value* of B[1:0][cite: 16, 46].
+[cite_start]Flag:     'carry_out' = 0 [cite: 22]
+
+  Custom Op (if B[1:0] == 2'b00): LSL
+  [cite_start]Description: Logical Shift Left A by B[1:0] bits[cite: 47, 51].
+
+  Custom Op (if B[1:0] == 2'b01): LSR
+  [cite_start]Description: Logical Shift Right A by B[1:0] bits[cite: 47, 52].
+
+  Custom Op (if B[1:0] == 2'b10): ROL
+  [cite_start]Description: Rotate Left A by B[1:0] bits[cite: 47, 53, 54].
+
+  Custom Op (if B[1:0] == 2'b11): POPC
+  [cite_start]Description: Population Count (number of 1s) of (A | B)[cite: 46, 56].
