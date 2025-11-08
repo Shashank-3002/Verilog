@@ -100,9 +100,3 @@ vvp cnn_param_sim
 
 3️⃣ View Waveform
 gtkwave nn_param_wave.vcd
-
-
-
-
-
-
