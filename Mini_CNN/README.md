@@ -1,7 +1,7 @@
 # 🧠 Parameterised CNN Compute Unit with Overflow Detection
 
 A **hardware implementation of a mini Convolutional Neural Network (CNN) compute unit** in **Verilog**, designed for FPGA and hardware accelerator use.  
-This project was developed as part of the **Yukti 2025 Hardware Design Competition**.
+This project was developed as part of the **Yukti 2025 Chip Design Challenge at IIIT Dharwad**.
 
 ---
 
@@ -100,6 +100,7 @@ vvp cnn_param_sim
 
 3️⃣ View Waveform
 gtkwave nn_param_wave.vcd
+
 
 
 
